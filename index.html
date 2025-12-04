@@ -9,14 +9,17 @@
 	<style>
 		.section-preview{
 			width: 100%;
-			height: 841.89px;
+			height: 500px;
 			display: none;
 		}
 		.section-preview iframe{
 			width: 100%;
-			height: 100%;
+			height: calc(100% - 50px);
 		}
 		.section-QRCode{
+			display: none;
+		}
+		.cont-preview{
 			display: none;
 		}
 	</style>
@@ -29,7 +32,7 @@
 		</div>
 	</nav>
 	<div class="container pt-3">
-		<div class="shadow rounded px-5 py-4 bg-white">
+		<div class="shadow rounded px-3 px-md-5 py-4 bg-white">
 			<h3 class="h3">Barcode Sertifikat</h3>
 			<hr>
 			<div class="form-group row">
@@ -64,18 +67,20 @@
 			</div>
 		</div>
 	</div>
-	<div class="container mt-3 ">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="section-preview shadow-md mx-auto rounded" id="container-preview">
-					<button type="button" class="btn btn-primary" id="btnPrintPDF">Print</button>
-					<iframe src="" frameborder="0" id="preview"></iframe>
+	<div class="container mt-3 cont-preview" >
+		<div class="shadow rounded px-3 px-md-5 py-4 bg-white">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="section-preview mx-auto rounded" id="container-preview">
+						<button type="button" class="btn btn-primary mb-2" id="btnPrintPDF">Print</button>
+						<iframe src="" frameborder="0" id="preview"></iframe>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="section-preview shadow-md mx-auto rounded" id="container-previewPDFKosong">
-					<button type="button" class="btn btn-primary" id="btnPrintPDFKosong">Print</button>
-					<iframe src="" frameborder="0" id="previewPDFKosong"></iframe>
+				<div class="col-md-6 pt-md-0 pt-5">
+					<div class="section-preview mx-auto rounded" id="container-previewPDFKosong">
+						<button type="button" class="btn btn-primary mb-2" id="btnPrintPDFKosong">Print</button>
+						<iframe src="" frameborder="0" id="previewPDFKosong"></iframe>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -143,6 +148,7 @@
 				const pngBytes = base64ToUint8Array(base64);
 				generatePDF(pngBytes);
 				generatePDFKosong(pngBytes);
+				$(".cont-preview").show();
 			}, 500);
 		})
 
