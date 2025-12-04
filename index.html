@@ -16,6 +16,9 @@
 			width: 100%;
 			height: 100%;
 		}
+		.section-QRCode{
+			display: none;
+		}
 	</style>
 </head>
 
@@ -55,8 +58,9 @@
 			</div>
 			<button type="button" class="btn btn-primary" id="btnSubmit">Submit!</button>
 			<hr>
-			<div class="center">
-				<div id="qrcodeRender"></div>
+			<div class="text-center section-QRCode">
+				<div id="qrcodeRender" class="mb-2 d-flex justify-content-center"></div>
+				<button type="button" class="btn btn-primary" id="btnPrintQRCode">Print</button>
 			</div>
 		</div>
 	</div>
@@ -85,6 +89,41 @@
 	$(function() {
 		let base64QR = "";
 		$("body").on("click", "#btnSubmit", function() {
+			let valid 	= true;
+			// === VALIDASI TEXT ===
+			let inputNomorSertifikat = $("#inputNomorSertifikat").val().trim();
+			if (inputNomorSertifikat === "") {
+				alert("Nomor Sertifikat wajib diisi");
+				valid = false;
+			}
+
+			// === VALIDASI SELECT ===
+			let selectJenisSertifikat = $("#selectJenisSertifikat").val();
+			if (selectJenisSertifikat === "") {
+				alert("Pilih Jenis Sertifikat terlebih dahulu");
+				valid = false;
+			}
+
+			// === VALIDASI FILE ===
+			let fileInput = $("#uploadSertifikat")[0];
+			if (fileInput.files.length === 0) {
+				alert("File wajib diupload");
+				valid = false;
+			} else {
+				let file = fileInput.files[0];
+				let ext = file.type;
+
+				if (ext !== "application/pdf") {
+					alert("File harus PDF");
+					valid = false;
+				}
+			}
+
+			if (!valid) {
+				return false;
+			}
+
+
 			let nomor_sertif = $("#inputNomorSertifikat").val();
 			$("#qrcodeRender").html("");
 			let qrcode = new QRCode(document.getElementById("qrcodeRender"), {
@@ -95,6 +134,7 @@
 				colorLight: "#ffffff",
 				correctLevel: QRCode.CorrectLevel.H
 			});
+			$(".section-QRCode").show();
 
 			setTimeout(function() {
 				// ambil QR sebagai PNG
@@ -226,17 +266,25 @@
 		$("body").on("click", "#btnPrintPDF", function() {
 			const iframe = document.getElementById("preview");
 			// iframe.onload = function() {
-				iframe.contentWindow.focus();
-				iframe.contentWindow.print();
+			iframe.contentWindow.focus();
+			iframe.contentWindow.print();
 			// };
 		});
 
 		$("body").on("click", "#btnPrintPDFKosong", function() {
 			const iframe = document.getElementById("previewPDFKosong");
 			// iframe.onload = function() {
-				iframe.contentWindow.focus();
-				iframe.contentWindow.print();
+			iframe.contentWindow.focus();
+			iframe.contentWindow.print();
 			// };
+		});
+		$("body").on("click", "#btnPrintQRCode", function() {
+			var img = $("#qrcodeRender img")[0];
+			var link = document.createElement("a");
+			let nomor_sertif = $("#inputNomorSertifikat").val();
+			link.href = img.src;
+			link.download = "QRCode-" + nomor_sertif + ".png";
+			link.click();
 		});
 	})
 	</script>
