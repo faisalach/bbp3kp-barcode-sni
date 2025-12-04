@@ -233,10 +233,10 @@
 
 		$("body").on("click", "#btnPrintPDFKosong", function() {
 			const iframe = document.getElementById("previewPDFKosong");
-			iframe.onload = function() {
+			// iframe.onload = function() {
 				iframe.contentWindow.focus();
 				iframe.contentWindow.print();
-			};
+			// };
 		});
 	})
 	</script>
