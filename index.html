@@ -225,10 +225,10 @@
 		}
 		$("body").on("click", "#btnPrintPDF", function() {
 			const iframe = document.getElementById("preview");
-			iframe.onload = function() {
+			// iframe.onload = function() {
 				iframe.contentWindow.focus();
 				iframe.contentWindow.print();
-			};
+			// };
 		});
 
 		$("body").on("click", "#btnPrintPDFKosong", function() {
